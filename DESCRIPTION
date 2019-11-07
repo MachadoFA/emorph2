@@ -1,6 +1,6 @@
 Package: mvEvol
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tools For Evolutionary Morphology
 Version: 0.1.0
 Author: person("Machado", "Fabio", role = c("aut", "cre") )
 Maintainer: Fabio Machado <mcfabio@gmail.com>
