@@ -66,13 +66,13 @@ sim_multiphylo <-function(G,
     if(selection=="random") C <- diag(dim(G)[1])
     if(is.numeric(selection)) {
       svec<-NULL
-      svec<-matrix(rnorm(dim(G)[1]*selection), dim(G)[1], selection) %>% apply(., 2, Normalize)
+      svec<-matrix(rnorm(dim(G)[1]*selection), dim(G)[1], selection) %>% apply(., 2, evolqg::Normalize)
       C <- svec %*% t(svec) + diag(dim(G)[1]) * 0.0001
     }
     C <- C/tr(C)
     A <- (G %*% C %*% G) / tr(G %*% C %*% G)
     A <- efsize * A
-    sel  <- sim.corrs(phy, A)
+    sel  <- phytools::sim.corrs(phy, A)
   }
 
   if(Nef_osc=="no")   Nef_osc <- Nef else{
@@ -85,7 +85,7 @@ sim_multiphylo <-function(G,
   phy1$edge.length <- phy$edge.length / Nef_osc
   phy$edge.length  <- phy$edge.length / Nef
   # set.seed(seed)
-  drift<- sim.corrs(phy1, G)
+  drift<- phytools::sim.corrs(phy1, G)
 
   # browser()
   data.s <- (drift + sel)
@@ -99,7 +99,7 @@ sim_multiphylo <-function(G,
   ws<-rmvnorm(sum(n.s),sigma=G)
   sps<-rep(rownames(data.s),times=n.s)
   de<-data.frame(sps=factor(sps,unique(sps)),ws) %>%
-    group_by(.,sps) %>% summarize_all(funs(mean))
+    dplyr::group_by(.,sps) %>% dplyr::summarize_all(funs(mean))
   data.s<-data.s+de[,-1]
 
   if(matrix){

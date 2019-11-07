@@ -6,7 +6,7 @@ Author: person("Machado", "Fabio", role = c("aut", "cre"), person("Penna", "Anna
 Maintainer: Fabio Machado <macfabio@gmail.com>
 Description: Simulation methods to test quantitative genetics predictions in a 
     phylogenetic comparative framework.
-License: MIT
+License: GPL
 Encoding: UTF-8
 LazyData: true
 Imports: 
@@ -14,8 +14,8 @@ Imports:
     phytools,
     plyr,
     dplyr,
-    doParallel
+    doParallel,
+    evolqg
 Suggests:
     testthat
-    evoqg
 RoxygenNote: 6.1.1
