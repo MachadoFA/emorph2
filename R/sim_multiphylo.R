@@ -1,33 +1,28 @@
-########################################
-#simulating phylogenetic data###########
-########################################
-require(phytools)
-require(plyr); require(dplyr)
-#require(psych)
-#require(doParallel)
-require(mvtnorm)
-
-tr<-function(x) {sum(diag(x))}
-
-#registerDoParallel(cores = round(detectCores()/2))
-
-# G- Pooled within covariance matrix
-# means- species means
-# phy- phylogeny
-# n.s- vector of sample sizes
-# inter- number of interaction
-# parallel- run function on parallel (recomended)
-
-# a<-"266"
-# G<- AllCovs$vcv[[a]]
-# phy <- extract.clade(filogenia, a)
-# means <- allmedias[phy$tip.label,]
-# n.s<- unlist(AllCovs$df[rownames(means)])+1
-# selection="random"
-# efsize=0
-# gen_time=1e-06
-# Nef=10000
-# Nef_osc="no"
+#' sim_multiphylo simulates multivariate evolution.
+#'
+#' sim_multiphylo takes in a phylogeny and an aditive genetic
+#' variance-covariance matrix and simulate trait evolution under different
+#' selective regimes.
+#'
+#' @param G matrix
+#' @param phy
+#' @param n.s
+#' @param selection
+#' @param efsize
+#' @param gen_time
+#' @param Nef
+#' @param Nef_osc
+#' @param matrix
+#' @param Nef_par
+#' @param scale
+#' @param means
+#'
+#' @return
+#' \describe{
+#'   \item{One}{First item}
+#'   \item{Two}{Second item}
+#' }
+#'
 
 sim_multiphylo <-function(G,
                           phy,
@@ -99,3 +94,6 @@ sim_multiphylo <-function(G,
   }
   out
 }
+
+
+tr <- function(x) {sum(diag(x))}
