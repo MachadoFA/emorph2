@@ -3,9 +3,12 @@
 ########################################
 require(phytools)
 require(plyr); require(dplyr)
-require(psych)
-require(doParallel)
+#require(psych)
+#require(doParallel)
 require(mvtnorm)
+
+tr<-function(x) {sum(diag(x))}
+
 #registerDoParallel(cores = round(detectCores()/2))
 
 # G- Pooled within covariance matrix
