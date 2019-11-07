@@ -99,9 +99,8 @@ sim_multiphylo <-function(G,
   # set.seed(seed)
   ws<-mvtnorm::rmvnorm(sum(n.s),sigma=G)
   sps<-rep(rownames(data.s),times=n.s)
-  de<-data.frame(sps=factor(sps,unique(sps)),ws)
-  de<-dplyr::group_by(de,sps)
-  de<-dplyr::summarize_all(de,dplyr::funs(mean))
+  de<-data.frame(sps=factor(sps,unique(sps)),ws) %>% dplyr::group_by(sps) %>%
+    dplyr::summarize_all(dplyr::funs(mean))
   data.s<-data.s+de[,-1]
 
   if(matrix){
