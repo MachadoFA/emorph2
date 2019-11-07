@@ -1,0 +1,3 @@
+load("/Users/fmachado/Dropbox/__R/mvEvol/tests/testthat/tree.RDS")
+ls
+ls()
