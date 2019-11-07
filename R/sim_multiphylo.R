@@ -66,7 +66,8 @@ sim_multiphylo <-function(G,
     if(selection=="random") C <- diag(dim(G)[1])
     if(is.numeric(selection)) {
       svec<-NULL
-      svec<-matrix(rnorm(dim(G)[1]*selection), dim(G)[1], selection) %>% apply(., 2, evolqg::Normalize)
+      svec<-matrix(stats::rnorm(dim(G)[1]*selection), dim(G)[1], selection)
+      svec<-apply(svec, 2, evolqg::Normalize)
       C <- svec %*% t(svec) + diag(dim(G)[1]) * 0.0001
     }
     C <- C/tr(C)
@@ -76,8 +77,8 @@ sim_multiphylo <-function(G,
   }
 
   if(Nef_osc=="no")   Nef_osc <- Nef else{
-    if(Nef_osc=="norm") Nef_osc <- Nef * exp(rnorm(length(phy$edge.length), sd=Nef_par)) else{
-      if(Nef_osc=="unif") Nef_osc <- runif(length(phy$edge.length), min = Nef_par[1], max = Nef_par[2])
+    if(Nef_osc=="norm") Nef_osc <- Nef * exp(stats::rnorm(length(phy$edge.length), sd=Nef_par)) else{
+      if(Nef_osc=="unif") Nef_osc <- stats::runif(length(phy$edge.length), min = Nef_par[1], max = Nef_par[2])
     }
   }
 
@@ -90,23 +91,24 @@ sim_multiphylo <-function(G,
   # browser()
   data.s <- (drift + sel)
   if(scale) {
-    pics<-apply(data.s, 2, function(x) pic(x, phy))
+    pics<-apply(data.s, 2, function(x) ape::pic(x, phy))
     rate.s <- tr(t(pics) %*% pics)
     s      <- sqrt(rate/rate.s)
     data.s <- data.s * s
   }
   # set.seed(seed)
-  ws<-rmvnorm(sum(n.s),sigma=G)
+  ws<-mvtnorm::rmvnorm(sum(n.s),sigma=G)
   sps<-rep(rownames(data.s),times=n.s)
-  de<-data.frame(sps=factor(sps,unique(sps)),ws) %>%
-    dplyr::group_by(.,sps) %>% dplyr::summarize_all(funs(mean))
+  de<-data.frame(sps=factor(sps,unique(sps)),ws)
+  de<-dplyr::group_by(de,sps)
+  de<-dplyr::summarize_all(de,dplyr::funs(mean))
   data.s<-data.s+de[,-1]
 
   if(matrix){
-    pics<-apply(data.s, 2, function(x) pic(x, phy))
+    pics<-apply(data.s, 2, function(x) ape::pic(x, phy))
     out<-list(R=t(pics) %*% pics,
-              W=var(ws),
-              B=var(data.s),
+              W=stats::var(ws),
+              B=stats::var(data.s),
               G=G,
               A=A)
   } else {
