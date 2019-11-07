@@ -1,26 +1,46 @@
 #' sim_multiphylo simulates multivariate evolution.
 #'
 #' sim_multiphylo takes in a phylogeny and an aditive genetic
-#' variance-covariance matrix and simulate trait evolution under different
+#' variance-covariance matrix and simulates trait evolution under different
 #' selective regimes.
 #'
-#' @param G matrix
-#' @param phy
-#' @param n.s
-#' @param selection
-#' @param efsize
-#' @param gen_time
-#' @param Nef
-#' @param Nef_osc
-#' @param matrix
-#' @param Nef_par
-#' @param scale
-#' @param means
+#' @param phy a phylogenetic tree. Must be of class 'phylo'.
+#' @param G matrix kxk for k number of characters.
+#' @param n.s a vector indicating the sample sizes for eaxh terminal.
+#' @param selection define the type oif selection "random" or numeric between 1
+#'     and k.
+#' @param efsize strenght of selection relative to drif. Must be >= 0.
+#' @param gen_time generation time in the same time unity as the phylogenetic
+#'     tree (usually MY).
+#' @param Nef effective population size for initial population. Must be >= 1.
+#' @param Nef_osc oscilation in effective population size (Nef) over time.
+#'     Character "no", "norm", or "unif".
+#' @param Nef_par set parameters for the oscilation of effective population
+#'     size (Nef).
+#' @param scale logic TRUE of FALSE. Should the matrices be scaled to the
+#'     empirical character values (means)?
+#' @param means matrix sxk containing the empirical averages of all k characters for each
+#'     species (s). Default = NULL.
+#' @param matrix logic TRUE of FALSE. Should the output be a set
+#' of marices? See 'Value' for more details.
 #'
 #' @return
 #' \describe{
-#'   \item{One}{First item}
-#'   \item{Two}{Second item}
+#' The 'sim_multiphylo' function returns an object of class "list". This is a
+#' list of items of class "matrix", all kxk.
+#' If 'matrix' = TRUE, the function returns 5 variance covariance matrices:
+#'   \item{R}{Evolutionary rate matrix. Describes the rate of evolution and
+#'   co-evolution among characters.
+#'   Diagonal contains traits' rate evolution according to Brownian-Motion,
+#'   off diagonals represent traits co-evolution.}
+#'   \item{W}{Within matrix. Pooled-within species' trait variance-covariance matrix. }
+#'   \item{B}{Between matrix. Variance-vovariance between average species traits.}
+#'   \item{G}{Genetic matrix. The original aditive variance-covariance G matrix imputed.}
+#'   \item{A}{Selection matrix. The expected effect due to selection.}
+#' If 'matrix' = FALSE, the function returns 3 matrices:
+#'   \item{bdata}{Simulated trait values for species averages.}
+#'   \item{wdata}{Simulated intraspecific error. }
+#'   \item{G}{the original aditive variance-covariance G matrix imputed.}
 #' }
 #'
 
@@ -90,7 +110,9 @@ sim_multiphylo <-function(G,
               G=G,
               A=A)
   } else {
-    out<-list(bdata=data.s,wdata=ws,G=G)
+    out<-list(bdata=data.s,
+              wdata=ws,
+              G=G)
   }
   out
 }
