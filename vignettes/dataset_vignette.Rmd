@@ -1,0 +1,49 @@
+---
+title: "Canidae Example Dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(mvEvol)
+```
+
+mvEvol package contains a Canidae dataset that can be used as example.
+
+## Usage
+
+`data("Canidae")`
+
+Load the example dataset in the local environment. 
+
+## Description
+
+#### Species means
+* `means`
+
+Matrix containing mean trait values for species. Total of 39 species (lines) and 40 traits (columns).  
+
+#### Species sample sizes
+* `n.s`
+
+Table containing the sample size for each species. 39 values.
+
+#### Phylogenetic tree
+* `tree`
+
+Dated phylogenetic tree representing the relationship among taxa and node age.
+
+#### W matrix
+* `W`
+
+Pooled within variance covariance matrix. Can be used as the G matrix in examples. 
