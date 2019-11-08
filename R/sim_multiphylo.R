@@ -46,7 +46,7 @@
 #'   \item{G}{the original aditive variance-covariance G matrix imputed.}
 #'   }
 #' }
-#'
+#' @export
 
 sim_multiphylo <-function(G,
                           phy,

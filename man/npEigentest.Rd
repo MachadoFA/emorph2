@@ -24,3 +24,11 @@ for details}
 npEigentest produces non-parametric confidence intervals spectral
 decomposition-based tests of matrix proportionality.
 }
+\examples{
+data("Canidae_means")
+data("Canidae_tree")
+data("Canidae_sample_sizes")
+data("Canidae_W")
+test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
+test.out$SimValues
+}
