@@ -31,7 +31,7 @@ Non-parametric confidence intervals for eigen-decomposition-based tests of
 matrix proportionality.
 }
 \examples{
-data("Canidae")
+data("canidae")
 test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 test.out$SimValues
 }

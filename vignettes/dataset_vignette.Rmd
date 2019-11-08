@@ -22,7 +22,7 @@ mvEvol package contains a Canidae dataset that can be used as example.
 
 ## Usage
 
-`data("Canidae")`
+`data("canidae")`
 
 Load the example dataset in the local environment. 
 
