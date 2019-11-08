@@ -1,29 +1,58 @@
+#' npEigentest
+#'
 #' npEigentest produces non-parametric confidence intervals spectral
 #' decomposition-based tests of matrix proportionality.
-#'
-#' npEigentest yadayaadayda.
 #'
 #' @param G matrix kxk for k number of traits.
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param n.s a vector indicating the sample sizes for each terminal.
+#' @param dim.ret choose the number of dimentions that should be retained in the
+#'     analysis.
+#' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
+#'     for details
+#'
+#' @return
+#'  \describe{
+#'  npEigentest returns a list containing summary of test results, simmulated
+#'  values for each test, and observed results for empirical data.
+#'  \itemize{
+#'      \item{TestResults}{summary table containing observed values and test results. TRUE = rejected drift.}
+#'      \item{Empirical}{Test results for empirical data.}
+#'      \item{SimValues}{simulated values for each test.}
+#'
+#'  }
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
+  #Estimate the rate matrix from Independant contrasts. V/CV matrix of
+  #evolutionary responses (DeltaZ per species) standardized by branch lenght
+  #(divergence time).
   pics<-apply(means, 2, function(x) pic(x, phy))
   R=t(pics) %*% pics
 
+  # Empirical test
   obs<-pcTests(G,R,length(n.s))
 
+  # simmulations
   sim<-adply(1:sims, 1, function(i){
     W <- rmvnorm(sum(n.s),sigma=G) %>% var
     picsr <- rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
     pcTests(W,R,length(n.s))
-  },.parallel = parallel)[,-1] %>% apply(.,2,function(c) quantile(c, c(0.025,0.975)))
+  },.parallel = parallel)[,-1]
 
-  slt05<-obs$slt<sim[1,1] | obs$slt>sim[2,1]
-  SDrel05<-obs$SDrel<sim[1,2] | obs$SDrel>sim[2,2]
+  quantiles <- sim %>% apply(.,2,function(c) quantile(c, c(0.025,0.975)))
 
-  data.frame(obs,slt05,SDrel05)
+
+  # Quantiles for each test
+  slt05<-obs$slt<quantiles[1,1] | obs$slt>quantiles[2,1] # if TRUE: reject drift
+  SDrel05<-obs$SDrel<quantiles[1,2] | obs$SDrel>quantiles[2,2] # if TRUE: reject drift
+
+  return(list("TestResults" = data.frame(obs,
+                                  slt05,
+                                  SDrel05),
+              "Empirical" = obs,
+              "SimValues" = sim
+              ) )
 }
 
 
@@ -48,6 +77,6 @@ pcTests<-function(G,R,n,dim.ret=NULL){
     N<-length(evs)
     SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
   }
-  data.frame(slt=sltest[1],
-             SDrel)
+  return(data.frame(slt=sltest[1],
+                    SDrel))
 }
