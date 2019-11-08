@@ -22,10 +22,7 @@
 #'      }
 #'
 #' @examples
-#' data("Canidae_means")
-#' data("Canidae_tree")
-#' data("Canidae_sample_sizes")
-#' data("Canidae_W")
+#' data("Canidae")
 #' test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 #' test.out$SimValues
 #' @export
