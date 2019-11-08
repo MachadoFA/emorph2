@@ -2,3 +2,5 @@
 
 export(npEigentest)
 export(sim_multiphylo)
+importFrom(magrittr,"%>%")
+importFrom("stats", "lm", "var")

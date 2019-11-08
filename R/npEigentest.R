@@ -1,14 +1,16 @@
-#' Non-parametric confidence intervals for eigen-decomposition-based tests of
-#' matrix proportionality.
-#'
-#' @param G square matrix of covariance among for k number of traits.
+#' @name npEigentests
+#' @description Non-parametric confidence intervals for eigen-decomposition-based tests of
+#'     matrix proportionality.
+#' @param G matrix kxk for k number of traits.
+#' @param means matrix sxk containing the empirical means of all k characters
+#'     for each species (s). Default = NULL.
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param n.s a vector indicating the sample sizes for each terminal.
-#' @param dim.ret number of dimensions that will be retained. Can be used to
-#' remove small eigeinvalues.
-#' @param parallel Should the analysis be parallelized? Default is FALSE. See
-#' 'parallel vignette' for details.
-#'
+#' @param sims numeric. total number of summulations.
+#' @param dim.ret choose the number of dimentions that should be retained in the
+#'     analysis.
+#' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
+#'     for details
 #' @return
 #'  \describe{
 #'  npEigentest returns a list containing summary of test results, simmulated
@@ -19,11 +21,10 @@
 #'      \item{eigenvalues}{ Relationship between empirical within-species
 #'      eigenvalues and between species variances.}
 #'      }
-#'
 #' @examples
-#' data("Canidae")
-#' test.out<-npEigentest(G = W, means, tree, n.s, sims = 100, dim.ret = 20)
-#' test.out$SimValues
+#' \dontrun{data("canidae")}
+#' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
+#' test.out$SimValues}
 #' @export
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
@@ -39,11 +40,11 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   eigenG<-eigen(G)
   if(is.null(dim.ret)) dim.ret=dim(R)[1]
   RGr<- t(eigenG$vectors) %*% R %*% eigenG$vectors
-  df.s  <- data.frame(G=log(eigenG$value),
-                      R=log(diag(RGr)))
+  df.s  <- data.frame(G=log(eigenG$value)-mean(log(eigenG$value)),
+                      R=log(diag(RGr))-mean(log(diag(RGr))))
 
   # simmulations
-  sim<-adply(1:sims, 1, function(i){
+  sim<- plyr::adply(1:sims, 1, function(i){
     W <- mvtnorm::rmvnorm(sum(n.s),sigma=G) %>% var
     picsr <- mvtnorm::rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
@@ -66,8 +67,8 @@ pcTests<-function(G,R,n,dim.ret=NULL){
   eigenG<-eigen(G)
   if(is.null(dim.ret)) dim.ret=dim(R)[1]
   RGr<- t(eigenG$vectors) %*% R %*% eigenG$vectors
-  df.s  <- data.frame(G=log(eigenG$value),
-                      R=log(diag(RGr)))
+  df.s  <- data.frame(G=log(eigenG$value)-mean(log(eigenG$value)),
+                      R=log(diag(RGr))-mean(log(diag(RGr))))
   sltest<-lm(R~G, data=df.s[1:dim.ret,])
   sltest<-sltest$coefficients
 
