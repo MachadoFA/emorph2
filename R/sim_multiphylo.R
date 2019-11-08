@@ -1,4 +1,4 @@
-#' sim_multiphylo simulates multivariate evolution.
+#' Simulates evolution using Lande's multivariate breeder's equation.
 #'
 #' sim_multiphylo takes in a phylogeny and an aditive genetic
 #' variance-covariance matrix and simulates trait evolution under different

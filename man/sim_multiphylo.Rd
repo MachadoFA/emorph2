@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_multiphylo.R
 \name{sim_multiphylo}
 \alias{sim_multiphylo}
-\title{sim_multiphylo simulates multivariate evolution.}
+\title{Simulates evolution using Lande's multivariate breeder's equation.}
 \usage{
 sim_multiphylo(G, phy, n.s, selection = "random", efsize = 0,
   gen_time = 1e-06, Nef = 1000, Nef_osc = "no", matrix = TRUE,

@@ -1,7 +1,5 @@
-#' npEigentest
-#'
-#' npEigentest produces non-parametric confidence intervals spectral
-#' decomposition-based tests of matrix proportionality.
+#' Non-parametric confidence intervals for eigen-decomposition-based tests of
+#' matrix proportionality.
 #'
 #' @param G matrix kxk for k number of traits.
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.

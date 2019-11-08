@@ -2,7 +2,8 @@
 % Please edit documentation in R/npEigentest.R
 \name{npEigentest}
 \alias{npEigentest}
-\title{npEigentest}
+\title{Non-parametric confidence intervals for eigen-decomposition-based tests of
+matrix proportionality.}
 \usage{
 npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL,
   parallel = FALSE)
@@ -21,14 +22,11 @@ analysis.}
 for details}
 }
 \description{
-npEigentest produces non-parametric confidence intervals spectral
-decomposition-based tests of matrix proportionality.
+Non-parametric confidence intervals for eigen-decomposition-based tests of
+matrix proportionality.
 }
 \examples{
-data("Canidae_means")
-data("Canidae_tree")
-data("Canidae_sample_sizes")
-data("Canidae_W")
+data("Canidae")
 test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 test.out$SimValues
 }
