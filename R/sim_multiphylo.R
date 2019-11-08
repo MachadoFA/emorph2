@@ -30,20 +30,20 @@
 #' list of items of class "matrix", all kxk.
 #' If 'matrix' = TRUE, the function returns 5 variance covariance matrices:
 #'   \itemize{
-#'   \item{R}{Evolutionary rate matrix. Describes the rate of evolution and
+#'   \item{R}{ Evolutionary rate matrix. Describes the rate of evolution and
 #'   co-evolution among characters.
 #'   Diagonal contains traits' rate evolution according to Brownian-Motion,
 #'   off diagonals represent traits co-evolution.}
-#'   \item{W}{Within matrix. Pooled-within species' trait variance-covariance matrix. }
-#'   \item{B}{Between matrix. Variance-vovariance between average species traits.}
-#'   \item{G}{Genetic matrix. The original aditive variance-covariance G matrix imputed.}
-#'   \item{A}{Selection matrix. The expected effect due to selection.}
+#'   \item{W}{ Within matrix. Pooled-within species' trait variance-covariance matrix. }
+#'   \item{B}{ Between matrix. Variance-vovariance between average species traits.}
+#'   \item{G}{ Genetic matrix. The original aditive variance-covariance G matrix imputed.}
+#'   \item{A}{ Selection matrix. The expected effect due to selection.}
 #'  }
 #' If 'matrix' = FALSE, the function returns 3 matrices:
 #'   \itemize{
-#'   \item{bdata}{Simulated trait values for species averages.}
-#'   \item{wdata}{Simulated intraspecific error. }
-#'   \item{G}{the original aditive variance-covariance G matrix imputed.}
+#'   \item{bdata}{ Simulated trait values for species averages.}
+#'   \item{wdata}{ Simulated intraspecific error. }
+#'   \item{G}{ the original aditive variance-covariance G matrix imputed.}
 #'   }
 #' }
 #' @export

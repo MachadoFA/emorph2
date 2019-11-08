@@ -14,9 +14,9 @@
 #'  npEigentest returns a list containing summary of test results, simmulated
 #'  values for each test, and observed results for empirical data.
 #'  \itemize{
-#'      \item{TestResults}{summary table containing observed values and test results. TRUE = rejected drift.}
-#'      \item{Empirical}{Test results for empirical data.}
-#'      \item{SimValues}{simulated values for each test.}
+#'      \item{TestResults}{ summary table containing observed values and test results. TRUE = rejected drift.}
+#'      \item{Empirical}{ Test results for empirical data.}
+#'      \item{SimValues}{ simulated values for each test.}
 #'      }
 #'
 #' @examples
