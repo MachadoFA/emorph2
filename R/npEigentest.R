@@ -19,14 +19,13 @@
 #'      \item{TestResults}{summary table containing observed values and test results. TRUE = rejected drift.}
 #'      \item{Empirical}{Test results for empirical data.}
 #'      \item{SimValues}{simulated values for each test.}
-#'
-#'  }
+#'      }
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   #Estimate the rate matrix from Independant contrasts. V/CV matrix of
   #evolutionary responses (DeltaZ per species) standardized by branch lenght
   #(divergence time).
-  pics<-apply(means, 2, function(x) pic(x, phy))
+  pics<-apply(means, 2, function(x) ape::pic(x, phy))
   R=t(pics) %*% pics
 
   # Empirical test
@@ -34,13 +33,13 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
 
   # simmulations
   sim<-adply(1:sims, 1, function(i){
-    W <- rmvnorm(sum(n.s),sigma=G) %>% var
-    picsr <- rmvnorm(dim(pics)[1],sigma=G)
+    W <- mvtnorm::rmvnorm(sum(n.s),sigma=G) %>% var
+    picsr <- mvtnorm::rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
     pcTests(W,R,length(n.s))
   },.parallel = parallel)[,-1]
 
-  quantiles <- sim %>% apply(.,2,function(c) quantile(c, c(0.025,0.975)))
+  quantiles <- sim %>% apply(.,2,function(c) stats::quantile(c, c(0.025,0.975)))
 
 
   # Quantiles for each test
@@ -65,7 +64,7 @@ pcTests<-function(G,R,n,dim.ret=NULL){
   sltest<-lm(R~G, data=df.s[1:dim.ret,])
   sltest<-sltest$coefficients[2]
 
-  CRGr<-cov2cor(RGr)[1:dim.ret,1:dim.ret]
+  CRGr<-stats::cov2cor(RGr)[1:dim.ret,1:dim.ret]
   dimnames(CRGr)<-list(1:dim(CRGr)[1],1:dim(CRGr)[1])
   evs<-eigen(CRGr)$values
   N<-length(evs)
