@@ -13,10 +13,15 @@ npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL,
 
 \item{phy}{a phylogenetic tree. Must be of class 'phylo'.}
 
+\item{means}{matrix sxk containing the empirical means of all k characters
+#'     for each species (s). Default = NULL.}
+
 \item{n.s}{a vector indicating the sample sizes for each terminal.}
 
 \item{dim.ret}{choose the number of dimentions that should be retained in the
 analysis.}
+
+\item{sims}{total number of simulations.}
 
 \item{parallel}{Should parallelize? Default is FALSE. See 'parallel vignette'
 for details}

@@ -1,9 +1,12 @@
-#' Non-parametric confidence intervals for eigen-decomposition-based tests of
-#' matrix proportionality.
-#'
+#' @name npEigentests
+#' @description Non-parametric confidence intervals for eigen-decomposition-based tests of
+#'     matrix proportionality.
 #' @param G matrix kxk for k number of traits.
+#' @param means matrix sxk containing the empirical means of all k characters
+#'     for each species (s). Default = NULL.
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param n.s a vector indicating the sample sizes for each terminal.
+#' @param sims numeric. total number of summulations.
 #' @param dim.ret choose the number of dimentions that should be retained in the
 #'     analysis.
 #' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
@@ -20,9 +23,9 @@
 #'      }
 #'
 #' @examples
-#' data("Canidae")
-#' test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
-#' test.out$SimValues
+#' \dontrun{data("Canidae")}
+#' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
+#' test.out$SimValues}
 #' @export
 
 
@@ -37,7 +40,7 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   obs<-pcTests(G,R,length(n.s))
 
   # simmulations
-  sim<-adply(1:sims, 1, function(i){
+  sim<- plyr::adply(1:sims, 1, function(i){
     W <- mvtnorm::rmvnorm(sum(n.s),sigma=G) %>% var
     picsr <- mvtnorm::rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
