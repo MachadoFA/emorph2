@@ -5,8 +5,8 @@
 #' selective regimes.
 #'
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
-#' @param G matrix kxk for k number of characters.
-#' @param n.s a vector indicating the sample sizes for eaxh terminal.
+#' @param G matrix kxk for k number of traits.
+#' @param n.s a vector indicating the sample sizes for each terminal.
 #' @param selection define the type oif selection "random" or numeric between 1
 #'     and k.
 #' @param efsize strenght of selection relative to drif. Must be >= 0.
@@ -19,8 +19,8 @@
 #'     size (Nef).
 #' @param scale logic TRUE of FALSE. Should the matrices be scaled to the
 #'     empirical character values (means)?
-#' @param means matrix sxk containing the empirical averages of all k characters for each
-#'     species (s). Default = NULL.
+#' @param means matrix sxk containing the empirical means of all k characters
+#'     for each species (s). Default = NULL.
 #' @param matrix logic TRUE of FALSE. Should the output be a set
 #' of marices? See 'Value' for more details.
 #'
@@ -57,6 +57,19 @@ sim_multiphylo <-function(G,
                           scale=FALSE,
                           means=NULL){
 
+  if(dim(G)[1]!=dim(G)[2]){
+    stop("G matrix must be square.")
+  }
+
+  if(is.null(phy$edge.length)){
+    stop("Phylogeny must contain branch lengths.")
+  }
+
+  if(efsize<0){
+    stop("Strength of selection must be equal or greater than 0.")
+  }
+
+
   phy$edge.length <- phy$edge.length / gen_time
   n<-length(phy$tip.label)
 
@@ -90,9 +103,14 @@ sim_multiphylo <-function(G,
 
   # browser()
   data.s <- (drift + sel)
-  if(scale) {
-    pics<-apply(data.s, 2, function(x) ape::pic(x, phy))
-    rate.s <- tr(t(pics) %*% pics)
+  if(scale){
+    if(is.null(means)){
+      stop("Empirical species means must be provided to scale the results")
+    }
+    pics<-apply(means, 2, function(x) ape::pic(x, phy))
+    rate <- tr(t(pics) %*% pics)
+    pics.s<-apply(data.s, 2, function(x) ape::pic(x, phy))
+    rate.s <- tr(t(pics.s) %*% pics.s)
     s      <- sqrt(rate/rate.s)
     data.s <- data.s * s
   }
@@ -119,4 +137,4 @@ sim_multiphylo <-function(G,
 }
 
 
-tr <- function(x) {sum(diag(x))}
+tr <- function(x) sum(diag(x))
