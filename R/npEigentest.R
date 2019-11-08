@@ -1,13 +1,13 @@
 #' Non-parametric confidence intervals for eigen-decomposition-based tests of
 #' matrix proportionality.
 #'
-#' @param G matrix kxk for k number of traits.
+#' @param G square matrix of covariance among for k number of traits.
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param n.s a vector indicating the sample sizes for each terminal.
-#' @param dim.ret choose the number of dimentions that should be retained in the
-#'     analysis.
-#' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
-#'     for details
+#' @param dim.ret number of dimensions that will be retained. Can be used to
+#' remove small eigeinvalues.
+#' @param parallel Should the analysis be parallelized? Default is FALSE. See
+#' 'parallel vignette' for details.
 #'
 #' @return
 #'  \describe{
@@ -24,6 +24,7 @@
 #' test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 #' test.out$SimValues
 #' @export
+
 
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
