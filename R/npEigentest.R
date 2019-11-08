@@ -11,7 +11,6 @@
 #'     analysis.
 #' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
 #'     for details
-#'
 #' @return
 #'  \describe{
 #'  npEigentest returns a list containing summary of test results, simmulated
@@ -21,13 +20,11 @@
 #'      \item{Empirical}{ Test results for empirical data.}
 #'      \item{SimValues}{ simulated values for each test.}
 #'      }
-#'
 #' @examples
 #' \dontrun{data("Canidae")}
 #' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 #' test.out$SimValues}
 #' @export
-
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   #Estimate the rate matrix from Independant contrasts. V/CV matrix of
