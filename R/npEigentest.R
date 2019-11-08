@@ -72,7 +72,7 @@ pcTests<-function(G,R,n,dim.ret=NULL){
 
   if(n<dim.ret) {
     CRGr<-CRGr[1:n,1:n]
-    evs<-eigen(CBGr)$values
+    evs<-eigen(CRGr)$values
     N<-length(evs)
     SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
   }

@@ -9,11 +9,11 @@ sim_multiphylo(G, phy, n.s, selection = "random", efsize = 0,
   Nef_par = NULL, scale = FALSE, means = NULL)
 }
 \arguments{
-\item{G}{matrix kxk for k number of characters.}
+\item{G}{matrix kxk for k number of traits.}
 
 \item{phy}{a phylogenetic tree. Must be of class 'phylo'.}
 
-\item{n.s}{a vector indicating the sample sizes for eaxh terminal.}
+\item{n.s}{a vector indicating the sample sizes for each terminal.}
 
 \item{selection}{define the type oif selection "random" or numeric between 1
 and k.}
@@ -37,14 +37,15 @@ size (Nef).}
 \item{scale}{logic TRUE of FALSE. Should the matrices be scaled to the
 empirical character values (means)?}
 
-\item{means}{matrix sxk containing the empirical averages of all k characters for each
-species (s). Default = NULL.}
+\item{means}{matrix sxk containing the empirical means of all k characters
+for each species (s). Default = NULL.}
 }
 \value{
 \describe{
 The 'sim_multiphylo' function returns an object of class "list". This is a
 list of items of class "matrix", all kxk.
 If 'matrix' = TRUE, the function returns 5 variance covariance matrices:
+  \itemize{
   \item{R}{Evolutionary rate matrix. Describes the rate of evolution and
   co-evolution among characters.
   Diagonal contains traits' rate evolution according to Brownian-Motion,
@@ -53,10 +54,13 @@ If 'matrix' = TRUE, the function returns 5 variance covariance matrices:
   \item{B}{Between matrix. Variance-vovariance between average species traits.}
   \item{G}{Genetic matrix. The original aditive variance-covariance G matrix imputed.}
   \item{A}{Selection matrix. The expected effect due to selection.}
+ }
 If 'matrix' = FALSE, the function returns 3 matrices:
+  \itemize{
   \item{bdata}{Simulated trait values for species averages.}
   \item{wdata}{Simulated intraspecific error. }
   \item{G}{the original aditive variance-covariance G matrix imputed.}
+  }
 }
 }
 \description{
