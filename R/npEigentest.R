@@ -20,18 +20,22 @@
 #'      \item{SimValues}{ Simulated statistic values.}
 #'      \item{eigenvalues}{ Relationship between empirical within-species
 #'      eigenvalues and between species variances.}
-#'      }
+#'      }}
 #' @examples
 #' \dontrun{data("canidae")}
 #' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 #' test.out$SimValues}
 #' @export
+#' @importFrom ape pic
+#' @importFrom mvtnorm rmvnorm
+#' @importFrom plyr adply
+#' @importFrom dplyr %>%
 
 npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   #Estimate the rate matrix from Independant contrasts. V/CV matrix of
   #evolutionary responses (DeltaZ per species) standardized by branch lenght
   #(divergence time).
-  pics<-apply(means, 2, function(x) ape::pic(x, phy))
+  pics<-apply(means, 2, function(x) pic(x, phy))
   R=t(pics) %*% pics
 
   # Empirical test
@@ -43,10 +47,10 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   df.s  <- data.frame(G=log(eigenG$value)-mean(log(eigenG$value)),
                       R=log(diag(RGr))-mean(log(diag(RGr))))
 
-  # simmulations
+  # simulations
   sim<- plyr::adply(1:sims, 1, function(i){
-    W <- mvtnorm::rmvnorm(sum(n.s),sigma=G) %>% var
-    picsr <- mvtnorm::rmvnorm(dim(pics)[1],sigma=G)
+    W <- rmvnorm(sum(n.s),sigma=G) %>% var
+    picsr <- rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
     pcTests(W,R,length(n.s))
   },.parallel = parallel)[,-1]
