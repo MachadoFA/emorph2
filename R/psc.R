@@ -2,8 +2,7 @@
 #' @description Phylogenetic serial contrasts
 #' @param x a numeric vector.
 #' @param phy an object of class "phylo"
-#' @return
-#' lala
+#' @return lala
 #' @importFrom ape pic ace reorder.phylo
 #' @export
 psc<-function(x, phy){
