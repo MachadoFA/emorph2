@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_multiphylo.R
 \name{sim_multiphylo}
 \alias{sim_multiphylo}
-\title{Simulates evolution using Lande's multivariate breeder's equation.}
+\title{Quantitative genetics-based simulation of multivariate evolution.}
 \usage{
 sim_multiphylo(G, phy, n.s, selection = "random", efsize = 0,
   gen_time = 1e-06, Nef = 1000, Nef_osc = "no", matrix = TRUE,
@@ -64,7 +64,6 @@ If 'matrix' = FALSE, the function returns 3 matrices:
 }
 }
 \description{
-sim_multiphylo takes in a phylogeny and an aditive genetic
-variance-covariance matrix and simulates trait evolution under different
-selective regimes.
+Simulates evolution using Lande's multivariate breeder's equation.
+#'
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/npEigentest.R
 \name{npEigentest}
 \alias{npEigentest}
-\title{Non-parametric confidence intervals for eigen-decomposition-based tests of
-matrix proportionality.}
+\title{Non-parametric tests of matrix proportionality for comparative data}
 \usage{
 npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL,
   parallel = FALSE)
@@ -11,27 +10,38 @@ npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL,
 \arguments{
 \item{G}{matrix kxk for k number of traits.}
 
+\item{means}{matrix sxk containing the empirical means of all k characters
+for each species (s). Default = NULL.}
+
 \item{phy}{a phylogenetic tree. Must be of class 'phylo'.}
 
-\item{means}{matrix sxk containing the empirical means of all k characters
-#'     for each species (s). Default = NULL.}
-
 \item{n.s}{a vector indicating the sample sizes for each terminal.}
+
+\item{sims}{numeric. total number of summulations.}
 
 \item{dim.ret}{choose the number of dimentions that should be retained in the
 analysis.}
 
-\item{sims}{total number of simulations.}
-
 \item{parallel}{Should parallelize? Default is FALSE. See 'parallel vignette'
 for details}
 }
+\value{
+\describe{
+ npEigentest returns a list containing summary of test results, simulated
+ values for each test, and observed results for empirical data.
+ \itemize{
+     \item{Empirical}{ Empirical statistic values.}
+     \item{SimValues}{ Simulated statistic values.}
+     \item{eigenvalues}{ Relationship between empirical within-species
+     eigenvalues and between species variances.}
+     }}
+}
 \description{
-Non-parametric confidence intervals for eigen-decomposition-based tests of
-matrix proportionality.
+Evaluates the proportionality between the intraspecific patterns of
+covariation and interespecific rates of evolution througheigen-decompositon.
 }
 \examples{
-data("canidae")
-test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
-test.out$SimValues
+\dontrun{data("Canidae")}
+\dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
+test.out$SimValues}
 }

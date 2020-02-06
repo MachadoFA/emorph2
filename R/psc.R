@@ -1,8 +1,11 @@
-#' @name psc
-#' @description Phylogenetic serial contrasts
+#' Phylogenetic serial contrasts
+#'
+#' Calculate McPeek's phylogenetic contrasts along all banches of a phylogeny
+#'
 #' @param x a numeric vector.
 #' @param phy an object of class "phylo"
-#' @return lala
+#' @details Some details here
+#' @return what to return?
 #' @importFrom ape pic ace reorder.phylo
 #' @export
 psc<-function(x, phy){

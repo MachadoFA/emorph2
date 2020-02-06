@@ -1,6 +1,8 @@
-#' @name npEigentests
-#' @description Non-parametric confidence intervals for eigen-decomposition-based tests of
-#'     matrix proportionality.
+#' Non-parametric tests of matrix proportionality for comparative data
+#'
+#' Evaluates the proportionality between the intraspecific patterns of
+#' covariation and interespecific rates of evolution througheigen-decompositon.
+#'
 #' @param G matrix kxk for k number of traits.
 #' @param means matrix sxk containing the empirical means of all k characters
 #'     for each species (s). Default = NULL.
@@ -13,7 +15,7 @@
 #'     for details
 #' @return
 #'  \describe{
-#'  npEigentest returns a list containing summary of test results, simmulated
+#'  npEigentest returns a list containing summary of test results, simulated
 #'  values for each test, and observed results for empirical data.
 #'  \itemize{
 #'      \item{Empirical}{ Empirical statistic values.}
@@ -22,7 +24,7 @@
 #'      eigenvalues and between species variances.}
 #'      }}
 #' @examples
-#' \dontrun{data("canidae")}
+#' \dontrun{data("Canidae")}
 #' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 #' test.out$SimValues}
 #' @export

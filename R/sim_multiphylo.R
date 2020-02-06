@@ -1,9 +1,7 @@
+#' Quantitative genetics-based simulation of multivariate evolution.
+#'
 #' Simulates evolution using Lande's multivariate breeder's equation.
-#'
-#' sim_multiphylo takes in a phylogeny and an aditive genetic
-#' variance-covariance matrix and simulates trait evolution under different
-#' selective regimes.
-#'
+#'#'
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param G matrix kxk for k number of traits.
 #' @param n.s a vector indicating the sample sizes for each terminal.
