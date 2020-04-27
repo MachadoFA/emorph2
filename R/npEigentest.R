@@ -60,8 +60,8 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   quantiles <- sim %>% apply(.,2,function(c) stats::quantile(c, c(0.025,0.975)))
 
   # Quantiles for each test
-  slt05<-obs$slt<quantiles[1,1] | obs$slt>quantiles[2,1] # if TRUE: reject drift
-  SDrel05<-obs$SDrel<quantiles[1,2] | obs$SDrel>quantiles[2,2] # if TRUE: reject drift
+  # slt05<-obs$slt<quantiles[1,1] | obs$slt>quantiles[2,1] # if TRUE: reject drift
+  # SDrel05<-obs$SDrel<quantiles[1,2] | obs$SDrel>quantiles[2,2] # if TRUE: reject drift
 
   return(list("Empirical" = obs,
               "SimValues" = sim,
