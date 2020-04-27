@@ -3,7 +3,6 @@
 \docType{package}
 \name{mvMorph}
 \alias{mvMorph}
-\alias{mvMorph-package}
 \title{mvMorph}
 \description{
 Simulation methods to test quantitative genetics predictions in a phylogenetic comparative framework

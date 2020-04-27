@@ -41,7 +41,7 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   R=t(pics) %*% pics
 
   # Empirical test
-  obs<-pcTests(G,R,length(n.s))
+  obs<-pcTests(G,R,length(n.s), dim.ret=dim.ret)
   # Obtaining empirical distribution of eigenvalues
   eigenG<-eigen(G)
   if(is.null(dim.ret)) dim.ret=dim(R)[1]
@@ -54,7 +54,7 @@ npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
     W <- rmvnorm(sum(n.s),sigma=G) %>% var
     picsr <- rmvnorm(dim(pics)[1],sigma=G)
     R <- t(picsr) %*% picsr/dim(pics)[1]
-    pcTests(W,R,length(n.s))
+    pcTests(W,R,length(n.s),dim.ret=dim.ret)
   },.parallel = parallel)[,-1]
 
   quantiles <- sim %>% apply(.,2,function(c) stats::quantile(c, c(0.025,0.975)))
@@ -78,19 +78,19 @@ pcTests<-function(G,R,n,dim.ret=NULL){
   sltest<-lm(R~G, data=df.s[1:dim.ret,])
   sltest<-sltest$coefficients
 
-  CRGr<-stats::cov2cor(RGr)[1:dim.ret,1:dim.ret]
-  dimnames(CRGr)<-list(1:dim(CRGr)[1],1:dim(CRGr)[1])
-  evs<-eigen(CRGr)$values
-  N<-length(evs)
-  SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
-
-  if(n<dim.ret) {
-    CRGr<-CRGr[1:n,1:n]
-    evs<-eigen(CRGr)$values
-    N<-length(evs)
-    SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
-  }
+  # CRGr<-stats::cov2cor(RGr)[1:dim.ret,1:dim.ret]
+  # dimnames(CRGr)<-list(1:dim(CRGr)[1],1:dim(CRGr)[1])
+  # evs<-eigen(CRGr)$values
+  # N<-length(evs)
+  # SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
+  #
+  # if(n<dim.ret) {
+  #   CRGr<-CRGr[1:n,1:n]
+  #   evs<-eigen(CRGr)$values
+  #   N<-length(evs)
+  #   SDrel<-sqrt(sum((mean(evs)-evs)^2))/sqrt(N-1)
+  # }
   return(data.frame(intercept=sltest[1],
-                    slope=sltest[2],
-                    SDrel))
+                    slope=sltest[2] #,SDrel
+                    ))
 }

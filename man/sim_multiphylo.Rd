@@ -4,9 +4,20 @@
 \alias{sim_multiphylo}
 \title{Quantitative genetics-based simulation of multivariate evolution.}
 \usage{
-sim_multiphylo(G, phy, n.s, selection = "random", efsize = 0,
-  gen_time = 1e-06, Nef = 1000, Nef_osc = "no", matrix = TRUE,
-  Nef_par = NULL, scale = FALSE, means = NULL)
+sim_multiphylo(
+  G,
+  phy,
+  n.s,
+  selection = "random",
+  efsize = 0,
+  gen_time = 1e-06,
+  Nef = 1000,
+  Nef_osc = "no",
+  matrix = TRUE,
+  Nef_par = NULL,
+  scale = FALSE,
+  means = NULL
+)
 }
 \arguments{
 \item{G}{matrix kxk for k number of traits.}

@@ -4,8 +4,7 @@
 \alias{npEigentest}
 \title{Non-parametric tests of matrix proportionality for comparative data}
 \usage{
-npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL,
-  parallel = FALSE)
+npEigentest(G, means, phy, n.s, sims = 1000, dim.ret = NULL, parallel = FALSE)
 }
 \arguments{
 \item{G}{matrix kxk for k number of traits.}

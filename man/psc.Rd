@@ -4,19 +4,43 @@
 \alias{psc}
 \title{Phylogenetic serial contrasts}
 \usage{
-psc(x, phy)
+psc(x, phy, scale = TRUE)
 }
 \arguments{
 \item{x}{a numeric vector.}
 
 \item{phy}{an object of class "phylo"}
+
+\item{scale}{if contrasts should be scaled by expected variance. Default is
+TRUE}
 }
 \value{
-what to return?
+A vector of phylogenetically sequential contrasts. Vector contains
+one entry for each branch of the tree on the order that they appear on the
+phylo object (cladewise order. See \code{\link[ape]{reorder.phylo}}).
 }
 \description{
-Calculate McPeek's phylogenetic contrasts along all banches of a phylogeny
+Calculate McPeek's phylogenetic contrasts along all branches of a phylogeny
 }
 \details{
-Some details here
+Sequential contrasts are calculated along the branches of the
+phylogeny, instead of being calculated at each node, like standard
+Phylogenetic Independent Contrasts (Felsenstein, 1985). Like PIC, these
+contrasts can be scaled by expected variance and are a localized measure of
+evolutionary rates. These contrasts where first proposed by McPeek (1995) to
+find branches on a phylogeny where rates of evolution where higher.
+}
+\references{
+McPeek, M. 1995. "Testing Hypotheses About Evolutionary Change on
+Single Branches of a Phylogeny Using Evolutionary Contrasts". The American
+Naturalist 145(5):686–703.
+
+Felsenstein, J. 1985. Phylogenies and the comparative method.
+The American Naturalist 125(1):1–15.
+}
+\seealso{
+\code{\link[ape]{pic}}
+}
+\author{
+Fabio Andrade Machado
 }
