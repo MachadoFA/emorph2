@@ -13,3 +13,25 @@
 landeDist<-function(dz, G, Ne){
   diag(dz %*% solve(M) %*% t(dz))*Ne
 }
+
+landeDist.test<-function(dz, G, Ne, par=FALSE, nsim=999, MonteCarlo=FALSE,parallel=F){
+  k<-nrow(dz)
+
+  lD<-landeDist(dz, G, Ne)
+  if(par) {
+    p<-pchisq(lD,df = k, lower.tail=TRUE)+pchisq(lD,df = k, lower.tail=TRUE)/2
+  } else {
+    for(i in 1:nsim){
+      rmvnorm(dim(dat)[1],sigma=G)
+      original<-landeDist(change,G,1)
+      x<-mvtnorm::rmvnorm(dim(dat)[1],sigma=G)
+      Gr<- var(x)
+      resampled<-landeDist(change,Gr,1)
+      Ge<-ExtendMatrix(Gr,ret.dim = 10)$ExtMat
+      extended<-landeDist(change,Ge,1)
+      data.frame(original, resampled, extended)
+    },.parallel = T)
+  }
+
+
+}

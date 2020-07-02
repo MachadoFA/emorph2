@@ -25,15 +25,14 @@ analysis.}
 for details}
 }
 \value{
-\describe{
- npEigentest returns a list containing summary of test results, simulated
+npEigentest returns a list containing summary of test results, simulated
  values for each test, and observed results for empirical data.
- \itemize{
+ \describe{
      \item{Empirical}{ Empirical statistic values.}
      \item{SimValues}{ Simulated statistic values.}
      \item{eigenvalues}{ Relationship between empirical within-species
      eigenvalues and between species variances.}
-     }}
+     }
 }
 \description{
 Evaluates the proportionality between the intraspecific patterns of

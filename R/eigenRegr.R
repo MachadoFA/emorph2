@@ -14,15 +14,14 @@
 #' @param parallel Should parallelize? Default is FALSE. See 'parallel vignette'
 #'     for details
 #' @return
-#'  \describe{
-#'  npEigentest returns a list containing summary of test results, simulated
+#' npEigentest returns a list containing summary of test results, simulated
 #'  values for each test, and observed results for empirical data.
-#'  \itemize{
+#'  \describe{
 #'      \item{Empirical}{ Empirical statistic values.}
 #'      \item{SimValues}{ Simulated statistic values.}
 #'      \item{eigenvalues}{ Relationship between empirical within-species
 #'      eigenvalues and between species variances.}
-#'      }}
+#'      }
 #' @examples
 #' \dontrun{data("Canidae")}
 #' \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
