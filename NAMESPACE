@@ -2,6 +2,7 @@
 
 export(eigenPar)
 export(eigenRegr)
+export(landeDist)
 export(psc)
 export(sim_multiphylo)
 import(ape)

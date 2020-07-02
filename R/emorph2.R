@@ -1,7 +1,7 @@
-#' mvMorph
+#' emorph2
 #'
-#' @name mvMorph
-#' @description Simulation methods to test quantitative genetics predictions in a phylogenetic comparative framework
+#' @name emorph2
+#' @description Tools For Evolutionary Morphology and Morphometrics
 #' @docType package
 #' @import ape
 #' @import mvtnorm

@@ -1,6 +1,6 @@
-Package: mvEvol
+Package: emorph2
 Type: Package
-Title: Tools For Evolutionary Morphology
+Title: Tools For Evolutionary Morphology and Morphometrics
 Version: 0.1.0
 Author: person("Machado", "Fabio", role = c("aut", "cre"), person("Penna", "Anna", role=c("slave", "genious")) )
 Maintainer: Fabio Machado <macfabio@gmail.com>
