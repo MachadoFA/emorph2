@@ -4,7 +4,9 @@
 \name{Canidae}
 \alias{Canidae}
 \title{Canidae dataset}
-\format{Four objects of different classes}
+\format{
+Four objects of different classes
+}
 \usage{
 data(Canidae)
 }

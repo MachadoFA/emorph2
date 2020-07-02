@@ -1,7 +1,7 @@
 #' Non-parametric tests of matrix proportionality for comparative data
 #'
 #' Evaluates the proportionality between the intraspecific patterns of
-#' covariation and interespecific rates of evolution througheigen-decompositon.
+#' covariation and interespecific rates of evolution through eigen-decompositon.
 #'
 #' @param G matrix kxk for k number of traits.
 #' @param means matrix sxk containing the empirical means of all k characters
@@ -33,7 +33,7 @@
 #' @importFrom plyr adply
 #' @importFrom dplyr %>%
 
-npEigentest<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
+eigenRegr<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   #Estimate the rate matrix from Independant contrasts. V/CV matrix of
   #evolutionary responses (DeltaZ per species) standardized by branch lenght
   #(divergence time).
