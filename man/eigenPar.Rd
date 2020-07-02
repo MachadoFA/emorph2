@@ -57,9 +57,9 @@ with X being the matrix of within-lineage normalized vectors of divergence. The 
 
 To evaluate if observed patterns cannot be explained by change alone,  the function employs a simulation procedure to generate a distribution of eigenvalues. The "random" eigenvalues are confronted agaist the observed ones to provide a p-value for each individual dimension. The function allows for the test of two null hypotheses. If \code{null="random"}, the null distribution is built by re-estimating C from completly random vectors, as suggested by De Lisle & Bolnick (2020). If \code{null="drift"}, vectors are simulated using the multivariate breeder's equation (Lande, 1979) as follows
 
-\deqn{\Delta x= G (t/Ne)}
+\deqn{\Delta x= G (t/Nef)}
 
-where \code{G} is the among traits genetic variance-covariance matrix, \code{t} is time and \code{Ne} is the effective population size. Because we are only interested in directions, both \code{t} and \code{Ne} can be ignored, but \code{G} has to be provided by the user.
+where \code{G} is the among traits genetic variance-covariance matrix, \code{t} is time and \code{Nef} is the effective population size. Because we are only interested in directions, both \code{t} and \code{Nef} can be ignored, but \code{G} has to be provided by the user.
 }
 \references{
 De Lisle, S. P., & Bolnick, D. I. 2020. A multivariate view of parallel evolution. Evolution, 65, 1143–16. http://doi.org/10.1111/evo.14035

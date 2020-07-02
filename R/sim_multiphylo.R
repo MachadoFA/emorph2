@@ -1,13 +1,13 @@
 #' Quantitative genetics-based simulation of multivariate evolution.
 #'
 #' Simulates evolution using Lande's multivariate breeder's equation.
-#'#'
+#
 #' @param phy a phylogenetic tree. Must be of class 'phylo'.
 #' @param G matrix kxk for k number of traits.
 #' @param n.s a vector indicating the sample sizes for each terminal.
 #' @param selection define the type oif selection "random" or numeric between 1
 #'     and k.
-#' @param efsize strenght of selection relative to drif. Must be >= 0.
+#' @param efsize strenght of selection relative to drif. Must be \code{>= 0}.
 #' @param gen_time generation time in the same time unity as the phylogenetic
 #'     tree (usually MY).
 #' @param Nef effective population size for initial population. Must be >= 1.
@@ -23,27 +23,26 @@
 #' of marices? See 'Value' for more details.
 #'
 #' @return
-#' \describe{
 #' The 'sim_multiphylo' function returns an object of class "list". This is a
 #' list of items of class "matrix", all kxk.
 #' If 'matrix' = TRUE, the function returns 5 variance covariance matrices:
-#'   \itemize{
-#'   \item{R}{ Evolutionary rate matrix. Describes the rate of evolution and
+#' \describe{
+#'   \item{R}{Evolutionary rate matrix. Describes the rate of evolution and
 #'   co-evolution among characters.
 #'   Diagonal contains traits' rate evolution according to Brownian-Motion,
 #'   off diagonals represent traits co-evolution.}
-#'   \item{W}{ Within matrix. Pooled-within species' trait variance-covariance matrix. }
-#'   \item{B}{ Between matrix. Variance-vovariance between average species traits.}
-#'   \item{G}{ Genetic matrix. The original aditive variance-covariance G matrix imputed.}
-#'   \item{A}{ Selection matrix. The expected effect due to selection.}
+#'   \item{W}{Within matrix. Pooled-within species' trait variance-covariance matrix.}
+#'   \item{B}{Between matrix. Variance-vovariance between average species traits.}
+#'   \item{G}{Genetic matrix. The original aditive variance-covariance G matrix imputed.}
+#'   \item{A}{Selection matrix. The expected effect due to selection.}
 #'  }
 #' If 'matrix' = FALSE, the function returns 3 matrices:
-#'   \itemize{
-#'   \item{bdata}{ Simulated trait values for species averages.}
-#'   \item{wdata}{ Simulated intraspecific error. }
-#'   \item{G}{ the original aditive variance-covariance G matrix imputed.}
+#'  \describe{
+#'   \item{bdata}{Simulated trait values for species averages.}
+#'   \item{wdata}{Simulated intraspecific error.}
+#'   \item{G}{the original aditive variance-covariance G matrix imputed.}
 #'   }
-#' }
+#'
 #' @export
 
 sim_multiphylo <-function(G,

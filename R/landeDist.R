@@ -30,7 +30,7 @@ landeDist.test<-function(dz, G, Ne, par=FALSE, nsim=999, MonteCarlo=FALSE,parall
       Ge<-ExtendMatrix(Gr,ret.dim = 10)$ExtMat
       extended<-landeDist(change,Ge,1)
       data.frame(original, resampled, extended)
-    },.parallel = T)
+    }
   }
 
 
