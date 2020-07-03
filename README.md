@@ -20,7 +20,7 @@ Install [devtools](http://www.rstudio.com/projects/devtools/), then:
 
 ```R
 > library(devtools)
-> install_github("lem-usp/evolqg")
+> install_github("FabioLugar/emorph2")
 ```
 
 Troubleshooting
