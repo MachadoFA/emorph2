@@ -6,32 +6,63 @@
 #' @param dz
 #' @param G
 #' @param Ne
+#' @param CI
+#' @param par
+#' @param nsim
+#' @param alpha
+#' @param MonteCarlo
+#' @param n
+#' @param parallel
 #' @details
 #' @export
 #' @references Lande, R. 1979. Quantitative genetic analysis of multivariate evolution, applied to brain: body size allometry. Evolution, 33(1), 402–416.
 #' @author Fabio Andrade Machado
-landeDist<-function(dz, G, Ne){
-  diag(dz %*% solve(M) %*% t(dz))*Ne
-}
+#' @importFrom mvtnorm rmvnorm
+#'
 
-landeDist.test<-function(dz, G, Ne, par=FALSE, nsim=999, MonteCarlo=FALSE,parallel=F){
-  k<-nrow(dz)
+landeDist.test <-
+  function(dz, G, Ne, CI=0.95, par=FALSE, nsim=999, alpha=0.05, MonteCarlo=FALSE, n, parallel=FALSE){
+  k<-ncol(dz)
 
-  lD<-landeDist(dz, G, Ne)
+  lD.observed<-landeDist(dz, G, Ne)
+
   if(par) {
-    p<-pchisq(lD,df = k, lower.tail=TRUE)+pchisq(lD,df = k, lower.tail=TRUE)/2
+    p <- pmin(2*(1-pchisq(lD.observed,df = k)),
+              2*(pchisq(lD.observed,df = k)))
+    thresh <- setNames(qchisq(c((1-CI)/2,(1+CI)/2),df = k),
+                       c("2.5%","97.5%"))
   } else {
-    for(i in 1:nsim){
-      rmvnorm(dim(dat)[1],sigma=G)
-      original<-landeDist(change,G,1)
-      x<-mvtnorm::rmvnorm(dim(dat)[1],sigma=G)
-      Gr<- var(x)
-      resampled<-landeDist(change,Gr,1)
-      Ge<-ExtendMatrix(Gr,ret.dim = 10)$ExtMat
-      extended<-landeDist(change,Ge,1)
-      data.frame(original, resampled, extended)
+    `%dodo%` <- ifelse(parallel, `%dopar%`, `%do%`)
+    lD.sim <- foreach(i=1:nsim,.combine = "c") %dodo% {
+      if (MonteCarlo) {
+        x<-rmvnorm(n,sigma=G)
+        Gr<- var(x)
+      } else {
+        Gr <- G
+      }
+
+      z<-rmvnorm(1,sigma=G)
+      landeDist(z,Gr,1)
     }
+
+    p <- foreach(i=1:length(lD.observed), .combine=c) %do%
+      min(mean(c(0.5,lD.sim<=lD.observed[i])),
+          mean(c(0.5,lD.sim>=lD.observed[i])))*2
+    thresh<-quantile(lD.sim, c((1-CI)/2,(1+CI)/2))
+
+  }
+  table<-data.frame(GGD=lD.observed, 'p-value'=p, 'consistent with'="drift")
+
+  for(i in 1:nrow(table)){
+    if(table[i,1]<thresh[1]) table[i,3]<-"stabilizing"
+    if(table[i,1]>thresh[2]) table[i,3]<-"directional"
   }
 
-
+  list(table=table, thresh=thresh)
 }
+
+
+landeDist<-function(dz, G, Ne){
+  mahalanobis(dz, center=FALSE, cov=G) * Ne
+}
+

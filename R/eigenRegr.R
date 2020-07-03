@@ -31,6 +31,7 @@
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom plyr adply
 #' @importFrom dplyr %>%
+#' @author Fabio Andrade Machado
 
 eigenRegr<-function(G,means,phy,n.s,sims=1000,dim.ret=NULL,parallel=FALSE){
   #Estimate the rate matrix from Independant contrasts. V/CV matrix of

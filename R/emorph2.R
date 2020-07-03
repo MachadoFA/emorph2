@@ -7,6 +7,7 @@
 #' @import mvtnorm
 #' @import evolqg
 #' @import doParallel
+#' @import foreach
 #' @import plyr
 #' @import dplyr
 NULL
