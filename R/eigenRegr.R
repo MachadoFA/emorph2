@@ -17,9 +17,9 @@
 #' npEigentest returns a list containing summary of test results, simulated
 #'  values for each test, and observed results for empirical data.
 #'  \describe{
-#'      \item{Empirical}{ Empirical statistic values.}
-#'      \item{SimValues}{ Simulated statistic values.}
-#'      \item{eigenvalues}{ Relationship between empirical within-species
+#'      \item{Empirical}{Empirical statistic values.}
+#'      \item{SimValues}{Simulated statistic values.}
+#'      \item{eigenvalues}{Relationship between empirical within-species
 #'      eigenvalues and between species variances.}
 #'      }
 #' @examples
