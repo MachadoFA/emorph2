@@ -28,9 +28,9 @@ for details}
 npEigentest returns a list containing summary of test results, simulated
  values for each test, and observed results for empirical data.
  \describe{
-     \item{Empirical}{ Empirical statistic values.}
-     \item{SimValues}{ Simulated statistic values.}
-     \item{eigenvalues}{ Relationship between empirical within-species
+     \item{Empirical}{Empirical statistic values.}
+     \item{SimValues}{Simulated statistic values.}
+     \item{eigenvalues}{Relationship between empirical within-species
      eigenvalues and between species variances.}
      }
 }
@@ -42,4 +42,7 @@ covariation and interespecific rates of evolution through eigen-decompositon.
 \dontrun{data("Canidae")}
 \dontrun{test.out<-npEigentest(G=W, means, tree, n.s, sims = 100, dim.ret = 20)
 test.out$SimValues}
+}
+\author{
+Fabio Andrade Machado
 }

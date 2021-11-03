@@ -26,7 +26,7 @@
 #'
 #' with X being the matrix of within-lineage normalized vectors of divergence. The eigenvalues of C are a measure of how much divergence occured along the same directions.
 #'
-#' To evaluate if observed patterns cannot be explained by change alone,  the function employs a simulation procedure to generate a distribution of eigenvalues. The "random" eigenvalues are confronted agaist the observed ones to provide a p-value for each individual dimension. The function allows for the test of two null hypotheses. If \code{null="random"}, the null distribution is built by re-estimating C from completly random vectors, as suggested by De Lisle & Bolnick (2020). If \code{null="drift"}, vectors are simulated using the multivariate breeder's equation (Lande, 1979) as follows
+#' To evaluate if observed patterns cannot be explained by chance alone,  the function employs a simulation procedure to generate a distribution of eigenvalues. The "random" eigenvalues are confronted agaist the observed ones to provide a p-value for each individual dimension. The function allows for the test of two null hypotheses. If \code{null="random"}, the null distribution is built by re-estimating C from completly random vectors, as suggested by De Lisle & Bolnick (2020). If \code{null="drift"}, vectors are simulated using the multivariate breeder's equation (Lande, 1979) as follows
 #'
 #' \deqn{\Delta x= G (t/Nef)}
 #'

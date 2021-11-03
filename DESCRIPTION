@@ -2,7 +2,8 @@ Package: emorph2
 Type: Package
 Title: Tools For Evolutionary Morphology and Morphometrics
 Version: 0.1.0
-Author: person("Machado", "Fabio", role = c("aut", "cre"), person("Penna", "Anna", role=c("slave", "genious")) )
+Author: person("Machado", "Fabio", role = c("aut", "cre"), 
+        person("Penna", "Anna", role=c("slave", "genious")) )
 Maintainer: Fabio Machado <macfabio@gmail.com>
 Description: Simulation methods to test quantitative genetics predictions in a phylogenetic comparative framework
 License: GPL
@@ -22,5 +23,5 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
