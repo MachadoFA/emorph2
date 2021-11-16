@@ -2,7 +2,7 @@
 % Please edit documentation in R/landeDist.R
 \name{landeDist.test}
 \alias{landeDist.test}
-\title{Lande's generalized genetic distance}
+\title{Test for Lande's generalized genetic distance}
 \usage{
 landeDist.test(
   dz,
