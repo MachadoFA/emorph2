@@ -6,7 +6,7 @@
 #' @param dists Distances to be extracted
 #' @param Names Landmark names
 #' @details xxxxxxxxx
-#' @return A dataframe of interlandmark distances per specimen..
+#' @return A dataframe of interlandmark distances per specimen.
 #' @export
 #' @references
 #' @author Fabio Andrade Machado

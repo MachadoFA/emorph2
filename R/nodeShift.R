@@ -9,7 +9,6 @@
 #' @importFrom ape pic ace reorder.phylo
 #' @export
 #' @author Fabio Andrade Machado
-#' @seealso \code{\link[ape]{pic}}
 node_shift<-function(phy,criteria,shift=NULL){
   phy<-reorder(phy,order = "postorder")
   if(is.null(shift)) shift<-criteria

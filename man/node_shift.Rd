@@ -20,9 +20,6 @@ rescaling phy
 \details{
 S
 }
-\seealso{
-\code{\link[ape]{pic}}
-}
 \author{
 Fabio Andrade Machado
 }
