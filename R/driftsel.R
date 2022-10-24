@@ -46,7 +46,7 @@
 #' @references
 #' @author Fabio Andrade Machado
 #'
-driftsel<-function(G, means, theta, anc=NULL, sims=1, pop.test=FALSE){
+driftsel<-function(G, means, theta, anc=NULL, sims=0){
 
   if(is.null(anc)) if(any(class(means)=="list")) {
     anc<-matrix(0, dim(mean[[1]])[1],dim(mean[[1]])[2])
@@ -78,6 +78,7 @@ driftsel<-function(G, means, theta, anc=NULL, sims=1, pop.test=FALSE){
   k<-nrow(pars$G[[1]])
   n<-nrow(pars$means[[1]])
   iters<-max(sizes)
+  if (parallel) `%do_%`<-`%dopar%` else `%do_%`<-`%do%`
 
   pars<-lapply(pars, function(x){
     if (any(class(x)!="list")){
@@ -92,11 +93,8 @@ driftsel<-function(G, means, theta, anc=NULL, sims=1, pop.test=FALSE){
   })
 
   D2 <- vector("numeric",iters)
-  if(pop.test & sims>1) {
-    D2_pop <- matrix(0,iters,n,dimnames = list(NULL,colnames(pars$means[[i]])))
-    D2_pop.tmp <- D2_pop
-    D2_sims<-vector("list",iters)
-    D2_pop_sims<-vector("list",iters)
+  if(sims>1) {
+    cdf_pop<- matrix(0,iters,n,dimnames = list(NULL,colnames(pars$means[[i]])))
   }
 
   for(i in seq_len(iters)){
@@ -107,70 +105,36 @@ driftsel<-function(G, means, theta, anc=NULL, sims=1, pop.test=FALSE){
     invSigma <- solve(Sigma)
     v_means <- mu - v_means
     D2[i]<-rowSums(v_means %*% invSigma * v_means)
-    # t(mu - v_means) %*% invSigma %*% (mu - v_means)
 
-    if(pop.test & sims>1){
-      D2_pop[i,]<-laply(1:n, function(j){
-        means[-j,]<-0
+    if(sims>0){
+      D2_pop<-laply(1:n, function(j){
+        means[-j,]<-matrix(mu,n-1,byrow = TRUE)
         v_means <- mu - c(means)
         rowSums(v_means %*% invSigma * v_means)
       })
-    }
 
-    if(sims>1){
       x<-rmvnorm(sims,sigma = Sigma)
-      D2_sims[[i]]<-rowSums(x %*% invSigma * x)
+      D2_pop_sims<-foreach(j=seq_len(sims),.combine = "rbind") %do_% {
+        means_sim<-matrix(x[,i],n-1,byrow = TRUE)
 
-      if(pop.test){
-        D2_pop.tmp[i,]<-laply(1:n, function(j){
-          means[-j,]<-0
+        laply(1:n, function(j){
+          means_sim[-j,]<-matrix(mu,n-1,byrow = TRUE)
           v_means <- mu - c(means)
           rowSums(v_means %*% invSigma * v_means)
         })
-        D2_pop_sims[[i]]<-D2_pop.tmp
       }
+
+      cdf_pop[i,]<-laply(1:n, function(j){
+        mean(D2_pop[,j]>D2_pop_sims[,j])
+      })
+
     }
+
   }
 
   cdf = pchisq(D2, df = k*n)
 
-  if (parallel) `%do_%`<-`%dopar%` else `%do_%`<-`%do%`
-
-  # if(sims>1){
-  #   foreach (i=seq_len(iters),.combine = "rbind") %do% {
-  #     Sigma <- 2*pars$G[[i]] %x% pars$theta[[i]]
-  #     # mu <- c(pars$anc[[i]])
-  #     invSigma <- solve(Sigma)
-  #     # v_means <- mu - v_means
-  #     x<-rmvnorm(sims,sigma = Sigma)
-  #     globalD2<-rowSums(x %*% invSigma * x)
-  #   }
-  # }
+  if(sims>0) return(list(cdf,cdf_pop)) else return(cdf)
 
 
-
-  #   D2sim <- foreach (i=seq_len(iters),.combine = "rbind") %do% {
-  #     means <- pars$means[[i]]
-  #     Sigma <- 2*pars$G[[i]] %x% pars$theta[[i]]
-  #     # mu <- c(pars$anc[[i]])
-  #     invSigma <- solve(Sigma)
-  #     # v_means <- mu - v_means
-  #     x<-rmvnorm(sims,sigma = Sigma)
-  #     globalD2<-rowSums(x %*% invSigma * x)
-  #
-  #     x<-array(x,dim = c(n,k,sims))
-  #     if(pop.test){
-  #       popD2<-foreach(j=1:sims,.combine = "rbind") %do_% {
-  #         if(pop.test){
-  #           ED <- t(x[,,i]) %*% x[,,i] / n
-  #           setNames(rowSums(means %*% solve(ED) * means), rownames(means))
-  #         }
-  #       }
-  #       data.frame(global=globalD2,popD2)
-  #     }
-  #   }
-  #   if(pop.test) {
-  #     return(list(D2=D2, postprob=cdf, globalsims=D2sim[,1], pop.test=D2sim[,-1]))
-  #     } else return(list(D2=D2, postprob=cdf, globalsims=D2sim[,1]))
-  # } else return(list(D2=D2, postprob=cdf))
 }

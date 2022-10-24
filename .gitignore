@@ -5,3 +5,4 @@
 .Rbuildignore
 inst/doc
 .DS_Store
+R/testing_.R
