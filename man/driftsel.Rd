@@ -4,7 +4,7 @@
 \alias{driftsel}
 \title{Multivariate test for between-population selection}
 \usage{
-driftsel(G, means, theta, anc = NULL, sims = NULL, pop.test = FALSE)
+driftsel(G, means, theta, anc = NULL, sims = 0, parallel = FALSE)
 }
 \arguments{
 \item{G}{Genetic additive among-trait covariance matrix for k number of
@@ -28,28 +28,15 @@ provided, the ancestral state is assumed to be 0 for all traits.}
 \item{sims}{Numeric. Number of simulations used for the non-parametric tests.
 If NULL, the parametric test is performed.}
 
+\item{parallel}{Should be parallelized? Default is FALSE.}
+
 \item{pop.test}{logical. If TRUE, calculate the mahalanobis distance for each
 population based on the expected divergence.
 simulations.}
-
-\item{parallel}{Should be parallelized? Default is FALSE. See 'parallel vignette'
-for details.}
 }
 \value{
-If boot=FALSE and verbose=FALSE, returns a single value for the parametric
-S-test.
-If boot=FALSE and verbose=TRUE, returns a distribution of posterior
-probabilities for the S-test.
-If boot=TRUE and verbose=FALSE, returns the empirical and null distribution
-of squared mahalanobis distances (D2).
-If boot=TRUE and verbose=TRUE, in addition to the previous result, returns
-the following
- \describe{
-     \item{pop}{A list containing the empirical and bootstrapped mahalanobis
-     distance for each population}
-     \item{null}{The distribution of the expected among-population
-     covariances according to genetic drift.}
-     }
+If nsim=0 returns a single value for the parametric S-test. If nsim>0 returns
+a non-parametric S-test value for each population.
 }
 \description{
 Tests for the presence of directional and stabilizing selection on

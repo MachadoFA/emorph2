@@ -22,23 +22,10 @@
 #' @param pop.test logical. If TRUE, calculate the mahalanobis distance for each
 #' population based on the expected divergence.
 #' simulations.
-#' @param parallel Should be parallelized? Default is FALSE. See 'parallel vignette'
-#' for details.
+#' @param parallel Should be parallelized? Default is FALSE.
 #' @return
-#' If boot=FALSE and verbose=FALSE, returns a single value for the parametric
-#' S-test.
-#' If boot=FALSE and verbose=TRUE, returns a distribution of posterior
-#' probabilities for the S-test.
-#' If boot=TRUE and verbose=FALSE, returns the empirical and null distribution
-#' of squared mahalanobis distances (D2).
-#' If boot=TRUE and verbose=TRUE, in addition to the previous result, returns
-#' the following
-#'  \describe{
-#'      \item{pop}{A list containing the empirical and bootstrapped mahalanobis
-#'      distance for each population}
-#'      \item{null}{The distribution of the expected among-population
-#'      covariances according to genetic drift.}
-#'      }
+#' If nsim=0 returns a single value for the parametric S-test. If nsim>0 returns
+#' a non-parametric S-test value for each population.
 #' @export
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom plyr alply laply
@@ -46,7 +33,7 @@
 #' @references
 #' @author Fabio Andrade Machado
 #'
-driftsel<-function(G, means, theta, anc=NULL, sims=0){
+driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
 
   if(is.null(anc)) if(any(class(means)=="list")) {
     anc<-matrix(0, dim(mean[[1]])[1],dim(mean[[1]])[2])
@@ -74,10 +61,8 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0){
     size
   }
   if(!all(sizes==max(sizes)|sizes==1)) stop('Number of iterations must be equal among G, means, theta and anc, or equal to 1')
-
-  k<-nrow(pars$G[[1]])
-  n<-nrow(pars$means[[1]])
   iters<-max(sizes)
+
   if (parallel) `%do_%`<-`%dopar%` else `%do_%`<-`%do%`
 
   pars<-lapply(pars, function(x){
@@ -92,9 +77,13 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0){
     }
   })
 
+  k<-nrow(pars$G[[1]])
+  n<-nrow(pars$means[[1]])
+
+
   D2 <- vector("numeric",iters)
   if(sims>1) {
-    cdf_pop<- matrix(0,iters,n,dimnames = list(NULL,colnames(pars$means[[i]])))
+    cdf_pop<- matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
   }
 
   for(i in seq_len(iters)){
@@ -108,24 +97,24 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0){
 
     if(sims>0){
       D2_pop<-laply(1:n, function(j){
-        means[-j,]<-matrix(mu,n-1,byrow = TRUE)
+        means[-j,]<-pars$anc[[i]][-j,]
         v_means <- mu - c(means)
         rowSums(v_means %*% invSigma * v_means)
       })
 
       x<-rmvnorm(sims,sigma = Sigma)
       D2_pop_sims<-foreach(j=seq_len(sims),.combine = "rbind") %do_% {
-        means_sim<-matrix(x[,i],n-1,byrow = TRUE)
+        means_sim<-matrix(x[j,],ncol = k,byrow = TRUE)
 
-        laply(1:n, function(j){
-          means_sim[-j,]<-matrix(mu,n-1,byrow = TRUE)
-          v_means <- mu - c(means)
+        laply(1:n, function(k){
+          means_sim[-k,]<-pars$anc[[i]][-k,]
+          v_means <- mu - c(means_sim)
           rowSums(v_means %*% invSigma * v_means)
         })
       }
 
       cdf_pop[i,]<-laply(1:n, function(j){
-        mean(D2_pop[,j]>D2_pop_sims[,j])
+        mean(D2_pop[j]>D2_pop_sims[,j])
       })
 
     }
