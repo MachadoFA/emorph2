@@ -77,13 +77,13 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
   })
 
   D2 <- vector("numeric",iters)
+  n<-nrow(pars$means[[1]])
   if(sims>1) {
     cdf_pop<- matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
   }
 
   for(i in seq_len(iters)){
     k<-nrow(pars$G[[i]])
-    n<-nrow(pars$means[[i]])
     means <- pars$means[[i]]
     v_means <- c(means)
     Sigma <- 2*pars$G[[i]] %x% pars$theta[[i]]
