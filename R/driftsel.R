@@ -35,11 +35,14 @@
 #'
 driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
 
-  if(is.null(anc)) if(any(class(means)=="list")) {
-    anc<-matrix(0, dim(mean[[1]])[1],dim(mean[[1]])[2])
-  } else {
-    anc<-matrix(0, dim(means)[1],dim(means)[2])
+  if(is.null(anc)) {
+    if(any(class(means)=="list")) {
+      anc<-matrix(0, dim(mean[[1]])[1],dim(mean[[1]])[2])
+    } else {
+      anc<-matrix(0, dim(means)[1],dim(means)[2])
+    }
   }
+
 
   pars<-list(G=G, means=means, theta=theta, anc=anc)
   sizes<-foreach(i=seq_along(pars),.combine = "c") %do% {
