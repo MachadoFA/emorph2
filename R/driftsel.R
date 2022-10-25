@@ -36,9 +36,9 @@
 driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
   if(is.null(anc)) {
     if(any(class(means)=="list")) {
-      anc<-matrix(0, dim(means[[1]])[1],dim(means[[1]])[2])
+      anc<-matrix(0, nrow(means[[1]]),ncol(means[[1]]))
     } else {
-      anc<-matrix(0, dim(means)[1],dim(means)[2])
+      anc<-matrix(0, nrow(means),ncol(means))
     }
   }
   pars<-list(G=G, means=means, theta=theta, anc=anc)
