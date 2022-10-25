@@ -88,13 +88,13 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE){
     mu <- c(pars$anc[[i]])
     invSigma <- solve(Sigma)
     v_means <- mu - v_means
-    D2[i]<-rowSums(v_means %*% invSigma * v_means)
+    D2[i]<-sum(v_means %*% invSigma * v_means)
 
     if(verbose){
       D2_pop[i,]<-laply(1:n, function(j){
         means[-j,]<-pars$anc[[i]][-j,]
         v_means <- mu - c(means)
-        rowSums(v_means %*% invSigma * v_means)
+        sum(v_means %*% invSigma * v_means)
       })
     }
   }
