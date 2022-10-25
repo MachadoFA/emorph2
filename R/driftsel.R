@@ -72,7 +72,7 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
         for(i in 1:iters) l[[i]]<-x
         l
       }
-    }
+    } else x
   })
   k<-nrow(pars$G[[1]])
   n<-nrow(pars$means[[1]])
