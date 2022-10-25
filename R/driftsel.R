@@ -34,7 +34,6 @@
 #' @author Fabio Andrade Machado
 #'
 driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
-
   if(is.null(anc)) {
     if(any(class(means)=="list")) {
       anc<-matrix(0, dim(means[[1]])[1],dim(means[[1]])[2])
@@ -42,8 +41,6 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
       anc<-matrix(0, dim(means)[1],dim(means)[2])
     }
   }
-
-
   pars<-list(G=G, means=means, theta=theta, anc=anc)
   sizes<-foreach(i=seq_along(pars),.combine = "c") %do% {
     x<-pars[[i]]
@@ -65,9 +62,7 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
   }
   if(!all(sizes==max(sizes)|sizes==1)) stop('Number of iterations must be equal among G, means, theta and anc, or equal to 1')
   iters<-max(sizes)
-
   if (parallel) `%do_%`<-`%dopar%` else `%do_%`<-`%do%`
-
   pars<-lapply(pars, function(x){
     if (any(class(x)!="list")){
       if (length(dim(x))==3) {
@@ -79,11 +74,8 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
       }
     }
   })
-
   k<-nrow(pars$G[[1]])
   n<-nrow(pars$means[[1]])
-
-
   D2 <- vector("numeric",iters)
   if(sims>1) {
     cdf_pop<- matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
@@ -104,29 +96,20 @@ driftsel<-function(G, means, theta, anc=NULL, sims=0, parallel=FALSE){
         v_means <- mu - c(means)
         rowSums(v_means %*% invSigma * v_means)
       })
-
       x<-rmvnorm(sims,sigma = Sigma)
       D2_pop_sims<-foreach(j=seq_len(sims),.combine = "rbind") %do_% {
         means_sim<-matrix(x[j,],ncol = k,byrow = TRUE)
-
         laply(1:n, function(k){
           means_sim[-k,]<-pars$anc[[i]][-k,]
           v_means <- mu - c(means_sim)
           rowSums(v_means %*% invSigma * v_means)
         })
       }
-
       cdf_pop[i,]<-laply(1:n, function(j){
         mean(D2_pop[j]>D2_pop_sims[,j])
       })
-
     }
-
   }
-
   cdf = pchisq(D2, df = k*n)
-
   if(sims>0) return(list(cdf,cdf_pop)) else return(cdf)
-
-
 }
