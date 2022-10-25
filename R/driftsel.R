@@ -63,7 +63,6 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE){
   }
   if(!all(sizes==max(sizes)|sizes==1)) stop('Number of iterations must be equal among G, means, theta and anc, or equal to 1')
   iters<-max(sizes)
-  if (parallel) `%do_%`<-`%dopar%` else `%do_%`<-`%do%`
   pars<-lapply(pars, function(x){
     if (any(class(x)!="list")){
       if (length(dim(x))==3) {
