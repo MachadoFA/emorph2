@@ -92,7 +92,7 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE, parallel=FALSE){
         v_mean<-pars$anc[[i]][j,]-means[j,]
         sigma <- 2* pars$G[[i]] %x% pars$theta[[i]][j,j]
         invsigma <- solve(sigma)
-        sum(v_mean %*% invSigma * v_mean)
+        sum(v_mean %*% invsigma * v_mean)
       })
     }
   }
