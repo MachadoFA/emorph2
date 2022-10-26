@@ -77,7 +77,6 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE, parallel=FALSE){
   n<-nrow(pars$means[[1]])
   if(verbose) {
     D2_pop<-cdf_pop<-matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
-    D2_trait<-cdf_trait<-matrix(0,iters,k,dimnames = list(NULL,rownames(pars$means[[1]])))
     }
 
   for(i in seq_len(iters)){
@@ -97,18 +96,12 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE, parallel=FALSE){
         invsigma <- solve(sigma)
         sum(v_mean %*% invsigma * v_mean)
       })
-      D2_trait[i,]<-laply(1:k, function(j){
-        v_mean<-pars$anc[[i]][,j]-means[,j]
-        sigma <- 2* pars$G[[i]][j,j] %x% pars$theta[[i]]
-        invsigma <- solve(sigma)
-        sum(v_mean %*% invsigma * v_mean)
-      })
     }
   }
   cdf = pchisq(D2, df = k*n)
   cdf_pop[] = pchisq(D2_pop, df = k)
   cdf_trait[] = pchisq(D2_trait, df = k)
   if(verbose) {
-    return(list(cdf=cdf, cdf_pop=cdf_pop, cdf_trait=cdf_trait, D2=D2, D2_pop=D2_pop, D2_trait=D2_trait))
+    return(list(cdf=cdf, cdf_pop=cdf_pop, D2=D2, D2_pop=D2_pop))
     } else return(cdf)
 }
