@@ -17,9 +17,7 @@
 #' be either a single nxk matrix, a list of multiple nxk matrices or a
 #' three-dimensional array (nxkxi). Must match the dimensionality of G. If not
 #' provided, the ancestral state is assumed to be 0 for all traits.
-#' @param sims Numeric. Number of simulations used for the non-parametric tests.
-#' If NULL, the parametric test is performed.
-#' @param pop.test logical. If TRUE, calculate the mahalanobis distance for each
+#' @param Verbose logical. If TRUE, calculate the mahalanobis distance for each
 #' population based on the expected divergence.
 #' simulations.
 #' @param parallel Should be parallelized? Default is FALSE.
@@ -33,7 +31,7 @@
 #' @references
 #' @author Fabio Andrade Machado
 #'
-driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE){
+driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE, parallel=FALSE){
   if(is.null(anc)) {
     if(any(class(means)=="list")) {
       anc<-means
@@ -77,7 +75,7 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE){
 
   D2 <- vector("numeric",iters)
   n<-nrow(pars$means[[1]])
-  if(verbose) D2_pop<-matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
+  if(verbose) D2_pop<-cdf_pop<-matrix(0,iters,n,dimnames = list(NULL,rownames(pars$means[[1]])))
 
   for(i in seq_len(iters)){
     k<-nrow(pars$G[[i]])
@@ -91,14 +89,16 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE){
 
     if(verbose){
       D2_pop[i,]<-laply(1:n, function(j){
-        means[-j,]<-pars$anc[[i]][-j,]
-        v_means <- mu - c(means)
-        sum(v_means %*% invSigma * v_means)
+        v_mean<-pars$anc[[i]][j,]-means[j,]
+        sigma <- 2* pars$G[[i]] %x% pars$theta[[i]][j,j]
+        invsigma <- solve(sigma)
+        sum(v_mean %*% invSigma * v_mean)
       })
     }
   }
   cdf = pchisq(D2, df = k*n)
+  cdf_pop[] = pchisq(D2_pop, df = k)
   if(verbose) {
-    return(list(cdf=cdf, D2=D2, D2_pop=D2_pop))
+    return(list(cdf=cdf, cdf_pop=cdf_pop, D2=D2, D2_pop=D2_pop))
     } else return(cdf)
 }
