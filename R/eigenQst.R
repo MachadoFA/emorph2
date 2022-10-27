@@ -4,6 +4,7 @@
 #' @param B A covariance matrix between population means.
 #' @param G A genetic covariance matrix.
 #'
+#' @export
 #' @importFrom expm sqrtm
 #' @author Fabio Andrade Machado
 eigenQst<-function(B,G){
