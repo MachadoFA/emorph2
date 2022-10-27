@@ -19,7 +19,6 @@
 #' provided, the ancestral state is assumed to be 0 for all traits.
 #' @param Verbose logical. If TRUE, calculate the mahalanobis distance for each
 #' population based on the expected divergence.
-#' simulations.
 #' @param parallel Should be parallelized? Default is FALSE.
 #' @return
 #' If nsim=0 returns a single value for the parametric S-test. If nsim>0 returns
