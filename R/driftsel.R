@@ -99,7 +99,7 @@ driftsel<-function(G, means, theta, anc=NULL, verbose=TRUE, parallel=FALSE){
   }
   cdf = pchisq(D2, df = k*n)
   cdf_pop[] = pchisq(D2_pop, df = k)
-  cdf_trait[] = pchisq(D2_trait, df = k)
+
   if(verbose) {
     return(list(cdf=cdf, cdf_pop=cdf_pop, D2=D2, D2_pop=D2_pop))
     } else return(cdf)
