@@ -4,7 +4,7 @@
 \alias{driftsel}
 \title{Multivariate test for between-population selection}
 \usage{
-driftsel(G, means, theta, anc = NULL, sims = 0, parallel = FALSE)
+driftsel(G, means, theta, anc = NULL, verbose = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{G}{Genetic additive among-trait covariance matrix for k number of
@@ -25,14 +25,10 @@ be either a single nxk matrix, a list of multiple nxk matrices or a
 three-dimensional array (nxkxi). Must match the dimensionality of G. If not
 provided, the ancestral state is assumed to be 0 for all traits.}
 
-\item{sims}{Numeric. Number of simulations used for the non-parametric tests.
-If NULL, the parametric test is performed.}
-
 \item{parallel}{Should be parallelized? Default is FALSE.}
 
-\item{pop.test}{logical. If TRUE, calculate the mahalanobis distance for each
-population based on the expected divergence.
-simulations.}
+\item{Verbose}{logical. If TRUE, calculate the mahalanobis distance for each
+population based on the expected divergence.}
 }
 \value{
 If nsim=0 returns a single value for the parametric S-test. If nsim>0 returns
