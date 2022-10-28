@@ -7,7 +7,7 @@
 #' @param theta matrix of among-population coancestry coefficients.
 #'
 #' @return
-#' A nxkxnsims cubic array of dimulated population averages.
+#' A nxkxnsims cubic array of simulated population averages.
 #'
 #' @importFrom mvtnorm rmvnorm
 #' @export
@@ -24,7 +24,7 @@ simDrift <-function(G, theta, nsims=1, mu=matrix(0,nrow(theta),nrow(G))){
   Sigma <- 2*G %x% theta
 
   x<-rmvnorm(nsims, sigma = Sigma)
-  array(x, c(k,n,nsim))
+  array(x, c(k,n,nsims))
 }
 
 
