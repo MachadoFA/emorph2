@@ -13,5 +13,6 @@ eigenQst<-function(B,G){
   globalQst<-mean(eQst$values)
   list('Global Qst'=globalQst,
        'Axes Qst'= eQst$values,
-       'Axes of most selection'= eQst$vector)
+       'Axes of most selection'= eQst$vector,
+       'FSTq'=mQst)
 }
