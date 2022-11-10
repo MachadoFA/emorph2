@@ -26,5 +26,3 @@ simDrift <-function(G, theta, nsims=1, mu=matrix(0,nrow(theta),nrow(G))){
   x<-rmvnorm(nsims, sigma = Sigma)
   array(x, c(n,k,nsims))
 }
-
-
