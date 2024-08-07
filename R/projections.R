@@ -19,4 +19,5 @@ projectFrom<-function(A, target, tol=.Machine$double.eps){
   } else {
     X<-A %*% t(eig$vectors[,keep])
   }
+  return(X)
 }
