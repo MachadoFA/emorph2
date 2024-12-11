@@ -2,6 +2,7 @@
 % Please edit documentation in R/emorph2.R
 \docType{package}
 \name{emorph2}
+\alias{emorph2-package}
 \alias{emorph2}
 \title{emorph2}
 \description{

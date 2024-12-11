@@ -12,7 +12,7 @@ simDrift(G, theta, nsims = 1, mu = matrix(0, nrow(theta), nrow(G)))
 \item{theta}{matrix of among-population coancestry coefficients.}
 }
 \value{
-A nxkxnsims cubic array of dimulated population averages.
+A nxkxnsims cubic array of simulated population averages.
 }
 \description{
 Simulates evolution by genetic drift on a metapopulation with varying levels

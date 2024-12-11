@@ -1,7 +1,8 @@
-write.landtnt <- function(x, names, k=NULL, filename="data_to_tnt.tnt") { 
+#' @export
+write.landtnt <- function(x, names, k=NULL, filename="data_to_tnt.tnt") {
   dimdata<-dim(x)
   species<-names
-  
+
   if(length(dimdata)==2){
     if(is.null(k)) {
       stop("Please set k", call. = FALSE)
@@ -12,14 +13,14 @@ write.landtnt <- function(x, names, k=NULL, filename="data_to_tnt.tnt") {
       rownames(species_coor)<-species
     }
   }
-  
+
   if(length(dimdata)==3){
     n <- dimdata[1]
     k <- dimdata[2]
     p <- dimdata[3]
-    species_coor<-two.d.array(x) 
+    species_coor<-two.d.array(x)
   }
-  
+
   complete_data <- NULL
   if(k==2){
     cor_x <- seq(1, by = 2, len = p)
@@ -40,7 +41,7 @@ write.landtnt <- function(x, names, k=NULL, filename="data_to_tnt.tnt") {
       complete_data <- rbind(complete_data, sal)
     }
   }
-  
+
   rownames(complete_data) <- species
   xano <- paste("1", n)
   fileConn<-file(filename)
@@ -49,8 +50,8 @@ write.landtnt <- function(x, names, k=NULL, filename="data_to_tnt.tnt") {
   for (i in 1:n) {
     line <- complete_data[i,]
     line <- paste(species[i], line)
-    write(line,file=filename,append=TRUE)  
+    write(line,file=filename,append=TRUE)
   }
   final_line <- ";"
-  write(final_line,file=filename,append=TRUE) 
+  write(final_line,file=filename,append=TRUE)
 }

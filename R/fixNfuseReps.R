@@ -9,6 +9,7 @@
 #' @importFrom Morpho fixLMtps
 #' @importFrom shapes procOPA
 #' @author Fabio Andrade Machado
+#' @export
 
 fixNfuseReps<-function(rep1, rep2, pairedLM){
   for(i in 1:dim(rep1)[3]){
