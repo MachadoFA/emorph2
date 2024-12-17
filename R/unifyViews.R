@@ -28,11 +28,12 @@
 # Please email me with comments and questions annat22@gmail.com
 # last updated Feb 28 2011
 #' @export
-unifyViews <- function(X, V1, V2, comLands, average=FALSE) {
-		V <- X[comLands,]
-		D <- X[comLands,]
-		Xv <- X[V1,]
-		Xd <- X[V2,]
+unifyViews <- function(V1, V2, comLands=NULL, average=TRUE) {
+		if(is.null(comLands)) comLands<-rownames(V1)[rownames(V1) %in% rownames(V2)]
+    V <- V1[comLands,]
+		D <- V2[comLands,]
+		Xv <- V1
+		Xd <- V2
 		V[which(is.na(D))] <- NA
 		D[which(is.na(V))] <- NA # making sure both ventral and dorsal of the same LM are NA's whenever one of them is
 		mV <- matrix(apply(V, 2, mean, na.rm=TRUE), byrow=TRUE, nr=nrow(Xv), nc=ncol(Xv))
@@ -48,11 +49,11 @@ unifyViews <- function(X, V1, V2, comLands, average=FALSE) {
 		S <- ifelse(L>0, 1, L)
 		RM <- SVD$v %*% S %*% t(SVD$u) # the rotation matrix
 		Xvr <- Xvc %*% RM # rotate all the translated ventral LM's
-		dv <- rbind(Xdc, Xvr)
-		dv[comV[which(is.na(dv[comV,1]))],] <- dv[comD[which(is.na(dv[comV,1]))],]
-		dv[comD[which(is.na(dv[comD,1]))],] <- dv[comV[which(is.na(dv[comD,1]))],]
+		dv <- rbind(Xdc, Xvr[-match(comLands, rownames(Xvr)),])
+
 		if (average==TRUE) {
-			dv[comD,] <- (dv[comD,]+dv[comV,])/2
-			dv <- dv[-match(comV, rownames(dv)),]}
-		list(unified=dv, errors=sqrt(rowSums((Xvr[comV,]-Dc)^2)))
+			dv[comLands,] <- (Xdc[comLands,]+Xvr[comLands,])/2
 		}
+		dv
+}
+
